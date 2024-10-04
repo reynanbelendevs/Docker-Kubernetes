@@ -1,0 +1,21 @@
+#Minikube
+minikube start --driver hyperv
+minikube dashboard 
+minikuke service *name of service* - to tunnel
+
+#Kubectl
+kubectl create deployment *name of deployment* --image=*reponame/image*
+kubectl get deployments - to see all the deployments
+kubectl get pods 
+kubectl expose deployments *name of deployment* --port=*port number*
+kubectl get service - to view all the service
+kubectl scale deployment/*name of deployment --replicas=*number of replicas*
+kubectl set image deployment/*name of deployment*  *name of image*=*new image*
+kubectl apply -f deployment.yaml
+kubectl delete deployment *name of deployment*
+kubectl delete service *name of service*
+kubectl delete -l deployment,services group=example - delete svc and deployments base on labels
+kubectl get sc - to view the default persitent volume class
+kubectl get pv - to view the persitent volume
+kubectl get pc - to view the persistent volume claim
+kubectl get namespaces - get namespaces

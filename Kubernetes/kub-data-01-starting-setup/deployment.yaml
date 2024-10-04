@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stories-service
+spec:
+  selector:
+    app: story
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: story
+  template:
+    metadata:
+      labels:
+        app: story
+    spec:
+      containers:
+      - name: story
+        image: reynanbelendevs/kube-data:5
+        env:
+        - name: STORY_FOLDER
+          #   value: 'story' only for not environment that is not conigmap
+          valueFrom:
+            configMapKeyRef:
+              name: data-store-env
+              key: folder
+        volumeMounts:
+        - mountPath: /app/story
+          name: story-volume
+
+      volumes:
+      - name: story-volume
+        # emptyDir: {} ideal only for one pod
+        # hostPath:
+        #  path: /data
+        #  type: DirectoryOrCreate
+        persistentVolumeClaim:
+          claimName: host-pcv
+
+

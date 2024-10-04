@@ -1,0 +1,5 @@
+docker build -t node-util . 
+
+docker run -it -v "C:\Docker Sample\Utility Container:/app" node-util   npm init
+
+#if docker-compose #docker-compose run --rm npm init 

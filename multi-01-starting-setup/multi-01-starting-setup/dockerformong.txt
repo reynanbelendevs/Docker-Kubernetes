@@ -1,0 +1,7 @@
+docker run  \
+--name mongodb \ 
+--rm -d \
+--network goals-net \
+-v data:/data/db \
+-e MONGO_INITDB_ROOT_USERNAME=max -e MONGO_INITDB_ROOT_PASSWORD=secret \
+mongo

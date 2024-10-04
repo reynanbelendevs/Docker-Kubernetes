@@ -1,0 +1,52 @@
+version: '1.0.0'
+services:
+  mongodb:
+    networks:
+      - goals-net
+    container_name: "mongodb"
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    #environment:
+    #  - MONGO_INITDB_ROOT_USERNAME:''
+    #  - MONGO_INITDB_ROOT_PASSWORD:''
+    env_file: 
+      - ./env/mongo.env
+  backend:
+    networks:
+      - goals-net
+    build: ./backend
+  #  build:
+  #    context: ./backend
+  #    dockerfile: Dockerfile  
+  #    args:
+  #      Port: 3000
+    ports:
+      - 80:80
+    volumes:
+      - logs:/app/logs 
+      - /app/node_modules
+      - ./backend:/app
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true #this will know the service is equal -i -t // interactive mode
+    tty: true
+    depends_on:
+      - backend
+
+volumes:
+  data:
+  logs:
+
+networks:
+  goals-net:
+    driver: bridge
+    name: goals-net

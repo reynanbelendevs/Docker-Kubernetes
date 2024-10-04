@@ -1,0 +1,2 @@
+docker build -t goals-react .
+docker run --name goals-frontend --rm -d -p 3000:3000 -it --network goals-net -v "C:\Docker Sample\multi-01-starting-setup\multi-01-starting-setup\frontend\src:/app/src" goals-react

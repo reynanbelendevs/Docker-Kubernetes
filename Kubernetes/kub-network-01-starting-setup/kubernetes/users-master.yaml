@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - name: users
+        image: reynanbelendevs/kub-demo-users:3
+        env:
+        # variable in kubernetes wil lalways overwrite the env in docker if has the same name
+        - name: AUTH_ADDRESS
+          # value: #cluster ip
+          #Note: you can use service name as a domain to communicate with different pod
+          value: "auth-service.default"
+# - name: auth
+#   image: reynanbelendevs/kub-demo-auth:latest
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  selector:
+    app: users
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+
+

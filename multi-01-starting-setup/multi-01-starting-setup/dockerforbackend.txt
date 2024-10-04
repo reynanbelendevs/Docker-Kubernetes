@@ -1,0 +1,2 @@
+docker build -t goals-node . 
+docker run -p 80:80 --name goals-backend --rm --network goals-net  -v "C:\Docker Sample\multi-01-starting-setup\multi-01-starting-setup\backend:/app" -v logs:/app/logs -v /app/node_modules  -e MONGODB_USERNAME=max -e MONGODB_PASSWORD=secret -d goals-node
